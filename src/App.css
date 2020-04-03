@@ -1,38 +1,231 @@
-.App {
-  text-align: center;
+/* Browser reset */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+/* Custom font */
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/* Enable this later */
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* @font-face {
+  font-family: 'SanFran';
+  src: url('../fonts/sanfran.woff') format('woff');
+  font-style: normal;
+  font-weight: 300;
+}
+body {
+  font-family: 'SanFran', sans-serif;
+  font-weight: 300;
+} */
+
+/* Containers */
+
+/* Use first letter uppercase for React e.g. Some-class */
+
+.Container {
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+.Calculator {
+  width: 320px;
+  height: 100vh;
+  border-radius: 40px;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Rows */
+
+.Calculator-row {
+  margin: 6.4px;
+  display: flex;
+  flex-direction: row;
+}
+.Output-row {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding-right: 20px;
   color: white;
+  font-size: 66px;
+  text-align: right;
+  display: block;
 }
 
-.App-link {
-  color: #61dafb;
+/* Buttons */
+
+.Button-default {
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  margin-left: 6.4px;
+  margin-right: 6.4px;
+  /* Disable button outline and blue click outline */
+  padding: 0;
+  border: none;
+  background: none;
+  outline: none;
+  /* Disable button outline and blue click outline */
+  background-color: #333333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Button-default:active {
+  background-color: #737373;
+}
+.Button-function {
+  background-color: #fe9f06;
+}
+.Button-function:active {
+  background-color: #fbc88e;
+}
+.Button-special {
+  background-color: #a5a5a5;
+}
+.Button-special:active {
+  background-color: #d9d9d9;
+}
+.Button-long {
+  width: 140.8px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Text */
+
+.Text-default {
+  color: white;
+  font-size: 27px;
+}
+.Text-special {
+  color: black;
+}
+
+/* Panels */
+
+.Bottom-panel {
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+.Indicator {
+  height: 5px;
+  width: 130px;
+  border-radius: 2.5px;
+  margin-bottom: 23px;
+  background-color: #9c9c9c;
+  display: none;
+}
+
+/* Media Queries */
+
+/* Galaxy S5, iPhone 11 Pro, X, Xs, 8 */
+/* Lock the width, dynamic height */
+@media only screen and (min-width: 375px) {
+  .Calculator {
+    width: 375px;
   }
-  to {
-    transform: rotate(360deg);
+  .Calculator-row {
+    margin: 7.5px;
+  }
+  .Output-row {
+    padding-right: 25px;
+    font-size: 69px;
+  }
+  .Button-default {
+    width: 75px;
+    height: 75px;
+    border-radius: 37.5px;
+    margin-left: 7.5px;
+    margin-right: 7.5px;
+  }
+  .Button-long {
+    width: 165px;
+  }
+  .Text-default {
+    font-size: 29px;
+  }
+  .Indicator {
+    display: none;
+  }
+}
+
+/* Pixel 2, iPhone 11 Pro Max, XS Max, 11, XR, 8+ */
+/* Lock the width, dynamic height */
+@media only screen and (min-width: 414px) {
+  .Calculator {
+    width: 414px;
+  }
+  .Calculator-row {
+    margin: 8.28px;
+  }
+  .Output-row {
+    padding-right: 29px;
+    font-size: 74px;
+  }
+  .Button-default {
+    width: 82.8px;
+    height: 82.8px;
+    border-radius: 41.4px;
+    margin-left: 8.28px;
+    margin-right: 8.28px;
+  }
+  .Button-long {
+    width: 182.16px;
+  }
+  .Text-default {
+    font-size: 32px;
+  }
+  .Bottom-panel {
+    height: 60px;
+  }
+  .Indicator {
+    display: none;
+  }
+}
+
+/* Desktop style, lock the height and width */
+@media only screen and (min-width: 417px) {
+  .Container {
+    background-color: white;
+  }
+  .Calculator {
+    width: 300px;
+    height: 600px;
+  }
+  .Calculator-row {
+    margin: 6px;
+  }
+  .Output-row {
+    padding-right: 16px;
+    font-size: 74px;
+  }
+  .Button-default {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+  .Button-long {
+    width: 132px;
+  }
+  .Text-default {
+    font-size: 30px;
+  }
+  .Bottom-panel {
+    height: 60px;
+  }
+  .Indicator {
+    display: block;
   }
 }

@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Container from './component/Container';
+import OutputRow from './component/OutputRow';
+import ButtonRows from './component/ButtonRows';
+import BottomPanel from './component/BottomPanel';
+import calculate from './logic/calculate'
 import './App.css';
 
-function App() {
+function Calculator() {
+  const [total, setTotal] = useState('0');
+
+  function clickHandler(isOperator, value) {
+    // Does this only render if the value has changed?
+    setTotal(calculate(total, isOperator, value));
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="Calculator">
+      <OutputRow>{total}</OutputRow>
+      <ButtonRows clickHandler={clickHandler} />
+      <BottomPanel />
     </div>
   );
+}
+
+function App() {
+  return <Container><Calculator /></Container>;
 }
 
 export default App;
