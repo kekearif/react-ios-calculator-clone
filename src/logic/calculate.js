@@ -1,9 +1,9 @@
-
 const defaults = {
   limit: 7
 };
 
 var evalString = '0';
+var didTapEquals = false;
 
 function hasProceedingOperator() {
   return ['+', '-', '*', '/'].includes(evalString.slice(-1));
@@ -25,14 +25,18 @@ function convertToExponential(string) {
 
 function operate(total, value) {
   // Only evaluate if there isn't a preceeding operator or AC/C is pressed
-  if (!['AC', 'C'].includes(value) && hasProceedingOperator()) {
+  if (!['AC', 'C', '+/-'].includes(value) && hasProceedingOperator()) {
     return total;
   }
-
   var evaluate;
 
   switch (value) {
     case 'AC':
+      didTapEquals = false;
+      evalString = '0';
+      return '0';
+    case 'C':
+      didTapEquals = false;
       evalString = '0';
       return '0';
     case '+/-':
@@ -53,24 +57,29 @@ function operate(total, value) {
       evalString = evaluate;
       return convertToExponential(evaluate);
     case '+':
+      didTapEquals = false;
       evaluate = eval(evalString).toString();
       evalString = evaluate + value;
       return convertToExponential(evaluate);
     case '-':
+      didTapEquals = false;
       evaluate = eval(evalString).toString();
       evalString = evaluate + value;
       return convertToExponential(evaluate);
     case 'x':
+      didTapEquals = false;
       evaluate = eval(evalString).toString();
       evalString = evaluate + '*';
       return convertToExponential(evaluate);
     case '÷':
+      didTapEquals = false;
       evaluate = eval(evalString).toString();
       evalString = evaluate + '/';
       return convertToExponential(evaluate);
     case '=':
       evaluate = eval(evalString).toString();
       evalString = evaluate;
+      didTapEquals = true;
       return convertToExponential(evaluate);
     default:
       break;
@@ -104,11 +113,17 @@ function number(total, value) {
     return total;
   }
 
+
+  // Clear display if equals was tapped
+  if (didTapEquals) {
+    evalString = '0';
+    didTapEquals = false;
+  }
   // Number handling
-  if (total === '0') {
+  if (evalString === '0') {
     evalString = value;
     return value;
-  } else if (total === '-0') {
+  } else if (evalString === '-0') {
     evalString = '-' + value;
     return '-' + value;
   } else {
