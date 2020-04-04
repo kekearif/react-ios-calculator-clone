@@ -13,6 +13,16 @@ function isNegativeNumber(string) {
   return string.charAt(0) === '-';
 }
 
+function convertToExponential(string) {
+  // Always convert back to a standard number first
+  let normalForm = Number(string).toString()
+
+  if (normalForm.length > defaults.limit) {
+    return Number(normalForm).toExponential(2).toString();
+  }
+  return normalForm;
+}
+
 function operate(total, value) {
   // Only evaluate if there isn't a preceeding operator or AC/C is pressed
   if (!['AC', 'C'].includes(value) && hasProceedingOperator()) {
@@ -41,27 +51,27 @@ function operate(total, value) {
       evaluate = eval(evalString).toString();
       evaluate = eval(evaluate + '/100').toString();
       evalString = evaluate;
-      return evaluate;
+      return convertToExponential(evaluate);
     case '+':
       evaluate = eval(evalString).toString();
       evalString = evaluate + value;
-      return evaluate;
+      return convertToExponential(evaluate);
     case '-':
       evaluate = eval(evalString).toString();
       evalString = evaluate + value;
-      return evaluate;
+      return convertToExponential(evaluate);
     case 'x':
       evaluate = eval(evalString).toString();
       evalString = evaluate + '*';
-      return evaluate;
+      return convertToExponential(evaluate);
     case '÷':
       evaluate = eval(evalString).toString();
       evalString = evaluate + '/';
-      return evaluate;
+      return convertToExponential(evaluate);
     case '=':
       evaluate = eval(evalString).toString();
       evalString = evaluate;
-      return evaluate;
+      return convertToExponential(evaluate);
     default:
       break;
   }
