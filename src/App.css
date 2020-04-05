@@ -85,6 +85,9 @@ body {
 .Button-function {
   background-color: #fe9f06;
 }
+.Button-function-selected {
+  background-color: white;
+}
 .Button-function:active {
   background-color: #fbc88e;
 }
@@ -103,6 +106,9 @@ body {
 .Text-default {
   color: white;
   font-size: 27px;
+}
+.Text-default-selected {
+  color: #fe9f06;
 }
 .Text-special {
   color: black;

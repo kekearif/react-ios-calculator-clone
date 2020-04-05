@@ -25,17 +25,13 @@ function convertToExponential(string) {
 
 function operate(total, value) {
   // Only evaluate if there isn't a preceeding operator or AC/C is pressed
-  if (!['AC', 'C', '+/-'].includes(value) && hasProceedingOperator()) {
+  if (!['AC', '+/-'].includes(value) && hasProceedingOperator()) {
     return total;
   }
   var evaluate;
 
   switch (value) {
     case 'AC':
-      didTapEquals = false;
-      evalString = '0';
-      return '0';
-    case 'C':
       didTapEquals = false;
       evalString = '0';
       return '0';
