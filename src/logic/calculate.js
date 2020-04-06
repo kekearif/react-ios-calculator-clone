@@ -1,5 +1,7 @@
 // Constants
 
+// Need to change this limit for different size screens
+// Might need to also change the font size
 const DIGIT_LIMIT = 7;
 
 // Global Vars
