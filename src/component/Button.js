@@ -2,8 +2,8 @@ import React from 'react';
 import "../App.css";
 
 function Button(props) {
-  var buttonClassName = "Button-default" + (` ${props.type}` || "" );
-  var textClassName = "Text-default" + (` ${props.text}` || "" );
+  let buttonClassName = "Button-default" + (` ${props.type}` || "" );
+  let textClassName = "Text-default" + (` ${props.text}` || "" );
   if (props.selectedOperator === props.value) {
     buttonClassName += " Button-function-selected";
     textClassName += " Text-default-selected"

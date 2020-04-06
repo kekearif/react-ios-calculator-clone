@@ -10,7 +10,6 @@ function Calculator() {
   const [total, setTotal] = useState('0');
 
   function clickHandler(isOperator, value) {
-    // Does this only render if the value has changed?
     setTotal(calculate(total, isOperator, value));
   }
 
