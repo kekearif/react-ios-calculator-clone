@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import Container from './component/Container';
 import OutputRow from './component/OutputRow';
 import ButtonRows from './component/ButtonRows';
+import TopPanel from './component/TopPanel';
 import BottomPanel from './component/BottomPanel';
-import calculate from './logic/calculate'
+import calculate from './logic/calculate';
 import './App.css';
 
 function Calculator() {
@@ -15,6 +16,7 @@ function Calculator() {
 
   return (
     <div className="Calculator">
+      <TopPanel />
       <OutputRow>{total}</OutputRow>
       <ButtonRows clickHandler={clickHandler} />
       <BottomPanel />

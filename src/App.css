@@ -6,25 +6,6 @@
   box-sizing: border-box;
 }
 
-/* Custom font */
-
-/* Enable this later */
-
-/* @font-face {
-  font-family: 'SanFran';
-  src: url('../fonts/sanfran.woff') format('woff');
-  font-style: normal;
-  font-weight: 300;
-}
-body {
-  font-family: 'SanFran', sans-serif;
-  font-weight: 300;
-} */
-
-/* Containers */
-
-/* Use first letter uppercase for React e.g. Some-class */
-
 .Container {
   height: 100vh;
   width: 100vw;
@@ -40,7 +21,8 @@ body {
   background-color: black;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  overflow: hidden;
 }
 
 /* Rows */
@@ -55,7 +37,7 @@ body {
   margin-top: 10px;
   padding-right: 20px;
   color: white;
-  font-size: 66px;
+  font-size: 60px;
   text-align: right;
   display: block;
 }
@@ -116,9 +98,13 @@ body {
 
 /* Panels */
 
+.Top-panel {
+  height: 105px;
+}
 .Bottom-panel {
-  height: 50px;
   display: flex;
+  /* fill the remaining space */
+  flex: 1;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
@@ -160,9 +146,6 @@ body {
   .Text-default {
     font-size: 29px;
   }
-  .Indicator {
-    display: none;
-  }
 }
 
 /* Pixel 2, iPhone 11 Pro Max, XS Max, 11, XR, 8+ */
@@ -191,12 +174,6 @@ body {
   .Text-default {
     font-size: 32px;
   }
-  .Bottom-panel {
-    height: 60px;
-  }
-  .Indicator {
-    display: none;
-  }
 }
 
 /* Desktop style, lock the height and width */
@@ -212,8 +189,8 @@ body {
     margin: 6px;
   }
   .Output-row {
+    font-size: 55px;
     padding-right: 16px;
-    font-size: 74px;
   }
   .Button-default {
     width: 60px;
@@ -227,9 +204,6 @@ body {
   }
   .Text-default {
     font-size: 30px;
-  }
-  .Bottom-panel {
-    height: 60px;
   }
   .Indicator {
     display: block;
