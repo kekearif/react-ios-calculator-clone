@@ -13,6 +13,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Disable double tap to zoom */
+  touch-action: manipulation;
 }
 .Calculator {
   width: 320px;
@@ -103,7 +105,7 @@
 }
 .Bottom-panel {
   display: flex;
-  /* fill the remaining space */
+  /* Fill the remaining space */
   flex: 1;
   flex-direction: column;
   justify-content: flex-end;

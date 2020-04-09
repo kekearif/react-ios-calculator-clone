@@ -6,7 +6,7 @@ function Button(props) {
   let textClassName = "Text-default" + (` ${props.text}` || "" );
   if (props.selectedOperator === props.value) {
     buttonClassName += " Button-function-selected";
-    textClassName += " Text-default-selected"
+    textClassName += " Text-default-selected";
   }
 
   return (
