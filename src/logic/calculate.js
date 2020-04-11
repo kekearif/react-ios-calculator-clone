@@ -1,148 +1,169 @@
+import operate from './operate'
+
 // Constants
 
 const DIGIT_LIMIT = 7;
 
-// Global Vars
+// Globals
 
 let CALCULATE = {};
-CALCULATE.evalString  = '0';
-CALCULATE.didTapEquals = false;
 
-// Helper Functions
 
-function hasProceedingOperator() {
-  console.log('slice ' + CALCULATE.evalString.slice(-1));
-  return ['+', '-', '*', '/'].includes(CALCULATE.evalString.slice(-1));
+// Helper functions
+//
+// Note I should check the other guys github I don't think I need to return an
+// entire JSON like I do
+
+function valueIsOperator(value) {
+  return ['+', '-', 'x', '÷'].includes(value);
 }
 
-function isNegativeNumber(string) {
-  return string.charAt(0) === '-';
-}
-
-function convertToExponential(string) {
-  // Always convert back to a standard number first
-  let normalForm = Number(string).toString()
-
-  if (normalForm.length > DIGIT_LIMIT) {
-    return Number(normalForm).toExponential(2).toString();
-  }
-  return normalForm;
-}
-
-// Main Functions
-
-function operate(total, value) {
-  // Use new operator
-  if (hasProceedingOperator()) {
-    CALCULATE.evalString = CALCULATE.evalString.slice(0, -1);
-  }
-
-  let evaluate;
-
-  switch (value) {
-    case 'AC':
-      CALCULATE.didTapEquals = false;
-      CALCULATE.evalString  = '0';
-      return '0';
-    case '+/-':
-      evaluate = eval(CALCULATE.evalString ).toString();
-      if (isNegativeNumber(evaluate)) {
-        evaluate = evaluate.substring(1);
-        CALCULATE.evalString  = evaluate;
-        return evaluate;
-      } else if (evaluate !== '0') {
-        CALCULATE.evalString  = '-' + evaluate;
-        return '-' + evaluate;
-      } else {
-        return evaluate;
-      }
-    case '%':
-      evaluate = eval(CALCULATE.evalString ).toString();
-      evaluate = eval(evaluate + '/100').toString();
-      CALCULATE.evalString  = evaluate;
-      return convertToExponential(evaluate);
-    case '+':
-      CALCULATE.didTapEquals = false;
-      evaluate = eval(CALCULATE.evalString ).toString();
-      CALCULATE.evalString  = evaluate + value;
-      return convertToExponential(evaluate);
-    case '-':
-      CALCULATE.didTapEquals = false;
-      evaluate = eval(CALCULATE.evalString ).toString();
-      CALCULATE.evalString  = evaluate + value;
-      return convertToExponential(evaluate);
-    case 'x':
-      CALCULATE.didTapEquals = false;
-      evaluate = eval(CALCULATE.evalString ).toString();
-      CALCULATE.evalString  = evaluate + '*';
-      return convertToExponential(evaluate);
-    case '÷':
-      CALCULATE.didTapEquals = false;
-      evaluate = eval(CALCULATE.evalString ).toString();
-      CALCULATE.evalString  = evaluate + '/';
-      return convertToExponential(evaluate);
-    case '=':
-      evaluate = eval(CALCULATE.evalString ).toString();
-      CALCULATE.evalString  = evaluate;
-      CALCULATE.didTapEquals = true;
-      return convertToExponential(evaluate);
-    default:
-      break;
+function formatString(string, value) {
+  if (value==='-') {
+    if (string.charAt(0)==='-') {
+      return string.substring(1);
+    } else if (string.length < DIGIT_LIMIT) {
+      return '-' + string;
+    }
+    return string;
+  } else if (value==='.' && string.includes('.')) {
+    return string;
+  } else if (value==='.') {
+    // Can likely remove this case
+    return string + value;
+  } else if (string==='0') {
+    return value;
+  } else {
+    return string + value;
   }
 }
 
-function number(total, value) {
-  // Decimal handling
-  if (value === '.') {
-    if (hasProceedingOperator()) {
-      CALCULATE.evalString = CALCULATE.evalString + '0.';
-      return '0.';
-    } else if (CALCULATE.didTapEquals) {
-      CALCULATE.evalString = '0.'
-      CALCULATE.didTapEquals = false;
-      return CALCULATE.evalString;
-    } else if (total.length === DIGIT_LIMIT - 1) {
-      return total;
-    } else if (total.includes('.')) {
-      return total;
-    } else {
-      CALCULATE.evalString  = CALCULATE.evalString  + value;
-      return total + value;
+
+export default function calculate(calculatorObj, value) {
+
+  // Clear button
+  if (value==='AC') {
+    return {
+      total: '0',
+      next: null,
+      operator: null
     }
   }
 
-  // Nothing to operate on if it has a proceeding operator
-  if (hasProceedingOperator()) {
-    CALCULATE.evalString  = CALCULATE.evalString  + value;
-    return value;
+  if (value==='+/-') {
+    if (calculatorObj.next) {
+      return {
+        total: calculatorObj.total,
+        next: formatString(calculatorObj.next, '-'),
+        operator: calculatorObj.operator
+      };
+    } else {
+      return {
+        total: formatString(calculatorObj.total, '-'),
+        next: calculatorObj.next,
+        operator: calculatorObj.operator
+      };
+    }
   }
 
-  // Limit handling
-  if (total.length === DIGIT_LIMIT) {
-    return total;
+  if (value==='%') {
+    if (calculatorObj.next) {
+      return {
+        total: calculatorObj.total,
+        next: operate(calculatorObj.next, '100', '÷'),
+        operator: calculatorObj.operator
+      };
+    } else {
+      return {
+        total: operate(calculatorObj.total, '100', '÷'),
+        next: calculatorObj.next,
+        operator: calculatorObj.operator
+      };
+    }
   }
 
-  // Clear display if equals was tapped
-  if (CALCULATE.didTapEquals) {
-    CALCULATE.evalString  = '0';
-    CALCULATE.didTapEquals = false;
+  if (value==='=') {
+    if (calculatorObj.next) {
+      const total = operate(
+        calculatorObj.total,
+        calculatorObj.next,
+        calculatorObj.operator
+      );
+      return {
+        total,
+        next: null,
+        operator: null
+      };
+    } else if (calculatorObj.operator) {
+      // Operator will perform on current number twice
+      const total = operate(
+        calculatorObj.total,
+        calculatorObj.total,
+        calculatorObj.operator
+      );
+      return {
+        total,
+        next: null,
+        operator: null
+      };
+    } else {
+      return {
+        total: calculatorObj.total,
+        next: calculatorObj.next,
+        operator: calculatorObj.operator
+      }
+    }
   }
-  // Number handling
-  if (CALCULATE.evalString  === '0') {
-    CALCULATE.evalString  = value;
-    return value;
-  } else if (CALCULATE.evalString  === '-0') {
-    CALCULATE.evalString  = '-' + value;
-    return '-' + value;
+
+  // Operator buttons
+  if (valueIsOperator(value)) {
+    // If has a next value do the calculation and cache new operator
+    if (calculatorObj.next) {
+      const total = operate(
+        calculatorObj.total,
+        calculatorObj.next,
+        calculatorObj.operator
+      );
+      return {
+        total,
+        next: null,
+        operator: value
+      };
+    } else {
+      // Else cache the operator (note this also replaces existing operators)
+      return {
+        total: calculatorObj.total,
+        next: calculatorObj.next,
+        operator: value
+      };
+    }
+  }
+
+  // Number buttons
+  if (calculatorObj.next) {
+    if (calculatorObj.next.length === DIGIT_LIMIT) {
+      return calculatorObj
+    }
+    return {
+      total: calculatorObj.total,
+      next: formatString(calculatorObj.next, value),
+      operator: calculatorObj.operator
+    };
+  } else if (calculatorObj.operator) {
+    return {
+      total: calculatorObj.total,
+      next: formatString('0', value),
+      operator: calculatorObj.operator
+    };
   } else {
-    CALCULATE.evalString  = CALCULATE.evalString  + value;
-    return total + value;
+    if (calculatorObj.total.length === DIGIT_LIMIT) {
+      return calculatorObj
+    }
+    return {
+      total: formatString(calculatorObj.total, value),
+      next: calculatorObj.next,
+      operator: calculatorObj.operator
+    };
   }
-}
 
-export default function calculate(total, isOperator, value) {
-  if (isOperator) {
-    return operate(total, value);
-  }
-  return number(total, value);
 }

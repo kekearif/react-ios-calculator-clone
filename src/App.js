@@ -8,16 +8,27 @@ import calculate from './logic/calculate';
 import './App.css';
 
 function Calculator() {
-  const [total, setTotal] = useState('0');
+  const [caclulatorObj, setCalculatorObj] = useState({
+    total: '0',
+    next: null,
+    operator: null
+  });
+
+  // What is the isOperator call for?
+  // I can likely remove that
 
   function clickHandler(isOperator, value) {
-    setTotal(calculate(total, isOperator, value));
+    setCalculatorObj(calculate(caclulatorObj, value));
   }
 
+  // If the calculator object has a next value show that, otherwise show the
+  // total.
   return (
     <div className="Calculator">
       <TopPanel />
-      <OutputRow>{total}</OutputRow>
+      <OutputRow>
+        {caclulatorObj.next ? (caclulatorObj.next) : (caclulatorObj.total)}
+      </OutputRow>
       <ButtonRows clickHandler={clickHandler} />
       <BottomPanel />
     </div>
