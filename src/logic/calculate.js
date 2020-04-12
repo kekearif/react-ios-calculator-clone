@@ -140,28 +140,38 @@ export default function calculate(calculatorObj, value) {
   }
 
   // Number buttons
-  if (calculatorObj.next) {
-    if (calculatorObj.next.length === DIGIT_LIMIT) {
-      return calculatorObj
+
+  // Tap a number and have an operator present
+  if (calculatorObj.operator) {
+    // If a next exists just append the number
+    if (calculatorObj.next) {
+      if (calculatorObj.next.length === DIGIT_LIMIT) { return calculatorObj; }
+      return {
+        total: calculatorObj.total,
+        next: formatString(calculatorObj.next, value),
+        operator: calculatorObj.operator
+      };
     }
-    return {
-      total: calculatorObj.total,
-      next: formatString(calculatorObj.next, value),
-      operator: calculatorObj.operator
-    };
-  } else if (calculatorObj.operator) {
+    // Otherwise replace the number
     return {
       total: calculatorObj.total,
       next: formatString('0', value),
       operator: calculatorObj.operator
     };
-  } else {
-    if (calculatorObj.total.length === DIGIT_LIMIT) {
-      return calculatorObj
-    }
+  }
+
+  // No operator present
+  if (calculatorObj.next) {
+    if (calculatorObj.next.length === DIGIT_LIMIT) { return calculatorObj; }
     return {
-      total: formatString(calculatorObj.total, value),
-      next: calculatorObj.next,
+      total: null,
+      next: formatString(calculatorObj.next, value),
+      operator: calculatorObj.operator
+    };
+  } else {
+    return {
+      total: null,
+      next: formatString('0', value),
       operator: calculatorObj.operator
     };
   }

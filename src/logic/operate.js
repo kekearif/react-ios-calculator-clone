@@ -25,6 +25,9 @@ function toExponential(value) {
  * @return {string}          The total value
  */
 function operate(valueOne, valueTwo, operator) {
+  if (valueOne === null) { return valueTwo; }
+  if (valueTwo === null) { return valueOne; }
+  
   const one = Big(valueOne);
   const two = Big(valueTwo);
 
