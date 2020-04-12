@@ -1,23 +1,26 @@
 import operate from './operate'
 
-// Constants
-
+/**
+ * The max number of characters that can be displayed on the screen
+ * @type {Number}
+ */
 const DIGIT_LIMIT = 7;
 
-// Globals
-
-let CALCULATE = {};
-
-
-// Helper functions
-//
-// Note I should check the other guys github I don't think I need to return an
-// entire JSON like I do
-
+/**
+ * Function to check if the button value is an operator
+ * @param  {string} value The button value
+ * @return {boolean}      Returns true is the buttons value is an operator
+ */
 function valueIsOperator(value) {
   return ['+', '-', 'x', '÷'].includes(value);
 }
 
+/**
+ * Performs formatting for special cases such as decimal and +/-
+ * @param  {string} string The string to format
+ * @param  {string} value  The value tapped
+ * @return {string}        The formatted string
+ */
 function formatString(string, value) {
   if (value==='-') {
     if (string.charAt(0)==='-') {
@@ -29,7 +32,6 @@ function formatString(string, value) {
   } else if (value==='.' && string.includes('.')) {
     return string;
   } else if (value==='.') {
-    // Can likely remove this case
     return string + value;
   } else if (string==='0') {
     return value;
@@ -38,10 +40,15 @@ function formatString(string, value) {
   }
 }
 
-
+/**
+ * Given an existing calculator object and button press value this will
+ * calculate and return the new calculator object
+ * @param  {object} calculatorObj The calculator object
+ * @param  {string} value         The button value
+ * @return {object}               The new calculator object
+ */
 export default function calculate(calculatorObj, value) {
 
-  // Clear button
   if (value==='AC') {
     return {
       total: '0',
@@ -115,7 +122,8 @@ export default function calculate(calculatorObj, value) {
     }
   }
 
-  // Operator buttons
+  // OPERATORS
+
   if (valueIsOperator(value)) {
     // If has a next value do the calculation and cache new operator
     if (calculatorObj.next) {
@@ -139,11 +147,11 @@ export default function calculate(calculatorObj, value) {
     }
   }
 
-  // Number buttons
+  // NUMBERS
 
-  // Tap a number and have an operator present
+  // Operator present when number is tapped
   if (calculatorObj.operator) {
-    // If a next exists just append the number
+    // If a next value exists just append the number
     if (calculatorObj.next) {
       if (calculatorObj.next.length === DIGIT_LIMIT) { return calculatorObj; }
       return {
@@ -160,7 +168,7 @@ export default function calculate(calculatorObj, value) {
     };
   }
 
-  // No operator present
+  // Operator is not present when a number is tapped
   if (calculatorObj.next) {
     if (calculatorObj.next.length === DIGIT_LIMIT) { return calculatorObj; }
     return {

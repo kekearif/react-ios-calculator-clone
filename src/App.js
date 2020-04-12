@@ -14,10 +14,7 @@ function Calculator() {
     operator: null
   });
 
-  // What is the isOperator call for?
-  // I can likely remove that
-
-  function clickHandler(isOperator, value) {
+  function clickHandler(value) {
     setCalculatorObj(calculate(caclulatorObj, value));
   }
 

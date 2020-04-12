@@ -9,64 +9,64 @@ import '../App.css';
 function ButtonRows(props) {
   const [selectedOperator, setSelectedOperator] = useState(null);
 
-  function clickHandler(isOperator, value) {
+  function clickHandler(value) {
     setSelectedOperator(value);
-    props.clickHandler(isOperator, value);
+    props.clickHandler(value);
   }
 
   return (
     <div>
       <Row>
         <SpecialButton value="AC"
-          clickHandler={() => clickHandler(true, 'AC')} />
+          clickHandler={() => clickHandler('AC')} />
         <SpecialButton value="+/-"
-          clickHandler={() => clickHandler(true, '+/-')} />
+          clickHandler={() => clickHandler('+/-')} />
         <SpecialButton value="%"
-          clickHandler={() => clickHandler(true, '%')} />
+          clickHandler={() => clickHandler('%')} />
         <FunctionButton value="÷"
           selectedOperator={selectedOperator}
-          clickHandler={() => clickHandler(true, '÷')} />
+          clickHandler={() => clickHandler('÷')} />
       </Row>
       <Row>
         <DefaultButton value="7"
-          clickHandler={() => clickHandler(false, '7')} />
+          clickHandler={() => clickHandler('7')} />
         <DefaultButton value="8"
-          clickHandler={() => clickHandler(false, '8')} />
+          clickHandler={() => clickHandler('8')} />
         <DefaultButton value="9"
-          clickHandler={() => clickHandler(false, '9')} />
+          clickHandler={() => clickHandler('9')} />
         <FunctionButton value="x"
           selectedOperator={selectedOperator}
-          clickHandler={() => clickHandler(true, 'x')} />
+          clickHandler={() => clickHandler('x')} />
       </Row>
       <Row>
         <DefaultButton value="4"
-          clickHandler={() => clickHandler(false, '4')} />
+          clickHandler={() => clickHandler('4')} />
         <DefaultButton value="5"
-          clickHandler={() => clickHandler(false, '5')} />
+          clickHandler={() => clickHandler('5')} />
         <DefaultButton value="6"
-          clickHandler={() => clickHandler(false, '6')} />
+          clickHandler={() => clickHandler('6')} />
         <FunctionButton value="-"
           selectedOperator={selectedOperator}
-          clickHandler={() => clickHandler(true, '-')} />
+          clickHandler={() => clickHandler('-')} />
       </Row>
       <Row>
         <DefaultButton value="1"
-          clickHandler={() => clickHandler(false, '1')} />
+          clickHandler={() => clickHandler('1')} />
         <DefaultButton value="2"
-          clickHandler={() => clickHandler(false, '2')} />
+          clickHandler={() => clickHandler('2')} />
         <DefaultButton value="3"
-          clickHandler={() => clickHandler(false, '3')} />
+          clickHandler={() => clickHandler('3')} />
         <FunctionButton value="+"
           selectedOperator={selectedOperator}
-          clickHandler={() => clickHandler(true, '+')} />
+          clickHandler={() => clickHandler('+')} />
       </Row>
       <Row>
         <LongButton value='0'
-          clickHandler={() => clickHandler(false, '0')} />
+          clickHandler={() => clickHandler('0')} />
         <DefaultButton value="."
-          clickHandler={() => clickHandler(false, '.')} />
+          clickHandler={() => clickHandler('.')} />
         <FunctionButton value="="
-          clickHandler={() => clickHandler(true, '=')} />
+          clickHandler={() => clickHandler('=')} />
       </Row>
     </div>
   );
